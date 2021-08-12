@@ -8,6 +8,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { dequal } from 'dequal';
 import omit from 'lodash/omit';
+import { HeaderBackButton } from '@react-navigation/stack';
 
 import Touch from '../../utils/touch';
 import KeyboardView from '../../presentation/KeyboardView';
@@ -33,13 +34,18 @@ import { getUserSelector } from '../../selectors/login';
 import SafeAreaView from '../../containers/SafeAreaView';
 
 class ProfileView extends React.Component {
-	static navigationOptions = ({ navigation, isMasterDetail }) => {
+	static navigationOptions = ({ navigation }) => {
 		const options = {
 			title: I18n.t('Profile')
 		};
-		if (!isMasterDetail) {
-			options.headerLeft = () => <HeaderButton.Drawer navigation={navigation} />;
-		}
+		options.headerLeft = () => (
+			<HeaderBackButton
+				label=' '
+				onPress={() => navigation.goBack()}
+				tintColor='#6C727A'
+				labelStyle={{ fontSize: 17, marginLeft: 20 }}
+			/>
+		);
 		options.headerRight = () => (
 			<HeaderButton.Preferences onPress={() => navigation.navigate('UserPreferencesView')} testID='preferences-view-open' />
 		);

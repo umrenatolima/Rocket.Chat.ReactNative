@@ -320,6 +320,7 @@ const DrawerNavigator = () => {
 			screenOptions={{ swipeEnabled: false }}
 			drawerType='back'
 			overlayColor={`rgba(0,0,0,${ themes[theme].backdropOpacity })`}
+			defaultStatus='open'
 		>
 			<Drawer.Screen name='ChatsStackNavigator' component={ChatsStackNavigator} />
 			<Drawer.Screen name='ProfileStackNavigator' component={ProfileStackNavigator} />
@@ -328,6 +329,22 @@ const DrawerNavigator = () => {
 		</Drawer.Navigator>
 	);
 };
+
+// const HorizontalMenu = createStackNavigator();
+// const HorizontalMenuNavigator = () => {
+// 	const { theme } = React.useContext(ThemeContext);
+
+// 	return (
+// 		<HorizontalMenu.Navigator
+// 		  screenOptions={{ ...defaultHeader, ...themedHeader(theme), ...StackAnimation }}
+// 		>
+// 			<HorizontalMenu.Screen name='ChatsStackNavigator' component={ChatsStackNavigator} options={{ headerShown: false }} />
+// 			<HorizontalMenu.Screen name='ProfileStackNavigator' component={ProfileStackNavigator} />
+// 			<HorizontalMenu.Screen name='SettingsStackNavigator' component={SettingsStackNavigator} />
+// 			<HorizontalMenu.Screen name='AdminPanelStackNavigator' component={AdminPanelStackNavigator} />
+// 		</HorizontalMenu.Navigator>
+// 	);
+// };
 
 // NewMessageStackNavigator
 const NewMessageStack = createStackNavigator();

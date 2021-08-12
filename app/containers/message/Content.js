@@ -29,7 +29,7 @@ const Content = React.memo((props) => {
 		if (SYSTEM_MESSAGE_TYPES_WITH_AUTHOR_NAME.includes(props.type)) {
 			return (
 				<Text>
-					<User {...props} /> {renderMessageContent}
+					{/* <User {...props} /> {renderMessageContent} */}
 				</Text>
 			);
 		}
@@ -39,13 +39,13 @@ const Content = React.memo((props) => {
 
 	const isPreview = props.tmid && !props.isThreadRoom;
 	let content = null;
+	const { baseUrl, user, onLinkPress } = useContext(MessageContext);
 
 	if (props.tmid && !props.msg) {
 		content = <Text style={[styles.text, { color: themes[props.theme].bodyText }]}>{I18n.t('Sent_an_attachment')}</Text>;
 	} else if (props.isEncrypted) {
 		content = <Text style={[styles.textInfo, { color: themes[props.theme].auxiliaryText }]}>{I18n.t('Encrypted_message')}</Text>;
 	} else {
-		const { baseUrl, user, onLinkPress } = useContext(MessageContext);
 		content = (
 			<Markdown
 				msg={props.msg}
@@ -85,9 +85,13 @@ const Content = React.memo((props) => {
 		content = <Text style={[styles.textInfo, { color: themes[props.theme].auxiliaryText }]}>{I18n.t('Message_Ignored')}</Text>;
 	}
 
+	const isReceivedMessage = props.author._id === user.id;
+
 	return (
-		<View style={props.isTemp && styles.temp}>
-			{content}
+		<View style={props.isTemp && styles.temp && styles.bubbleChat}>
+			<Text style={isReceivedMessage ? styles.receivedMessage : styles.sentMessage}>
+				{content}
+			</Text>
 		</View>
 	);
 }, (prevProps, nextProps) => {
@@ -133,7 +137,8 @@ Content.propTypes = {
 	navToRoomInfo: PropTypes.func,
 	useRealName: PropTypes.bool,
 	isIgnored: PropTypes.bool,
-	type: PropTypes.string
+	type: PropTypes.string,
+	author: PropTypes.obj
 };
 Content.displayName = 'MessageContent';
 

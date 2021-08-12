@@ -14,10 +14,13 @@ import Orientation from 'react-native-orientation-locker';
 import { Q } from '@nozbe/watermelondb';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
+import Navigation from '../../lib/Navigation';
+import { CustomIcon } from '../../lib/Icons';
+import SidebarItem from '../SidebarView/SidebarItem';
 import database from '../../lib/database';
 import RocketChat from '../../lib/rocketchat';
 import RoomItem, { ROW_HEIGHT } from '../../presentation/RoomItem';
-import styles from './styles';
+import styles, { BottomMenu, Item } from './styles';
 import log, { logEvent, events } from '../../utils/log';
 import I18n from '../../i18n';
 import SortDropdown from './SortDropdown';
@@ -332,13 +335,14 @@ class RoomsListView extends React.Component {
 					/>
 				</HeaderButton.Container>
 			) : (
-				<HeaderButton.Drawer
-					navigation={navigation}
-					testID='rooms-list-view-sidebar'
-					onPress={isMasterDetail
-						? () => navigation.navigate('ModalStackNavigator', { screen: 'SettingsView' })
-						: () => navigation.toggleDrawer()}
-				/>
+				null
+				// <HeaderButton.Drawer
+				// 	navigation={navigation}
+				// 	testID='rooms-list-view-sidebar'
+				// 	onPress={isMasterDetail
+				// 		? () => navigation.navigate('ModalStackNavigator', { screen: 'SettingsView' })
+				// 		: () => navigation.toggleDrawer()}
+				// />
 			)),
 			headerTitle: () => <RoomsListHeaderView />,
 			headerTitleContainerStyle: {
@@ -973,6 +977,83 @@ class RoomsListView extends React.Component {
 		);
 	};
 
+	sidebarNavigate = (route) => {
+		logEvent(events[`SIDEBAR_GO_${ route.replace('StackNavigator', '').replace('View', '').toUpperCase() }`]);
+		Navigation.navigate(route);
+	}
+
+	renderNavigation = () => {
+		const { theme } = this.props;
+		return (
+			<>
+				<SidebarItem
+					text={I18n.t('Chats')}
+					left={<CustomIcon name='message' size={20} color={themes[theme].titleText} />}
+					onPress={() => this.sidebarNavigate('ChatsStackNavigator')}
+					testID='sidebar-chats'
+					current={this.currentItemKey === 'ChatsStackNavigator'}
+				/>
+				<SidebarItem
+					text={I18n.t('Profile')}
+					left={<CustomIcon name='user' size={20} color={themes[theme].titleText} />}
+					onPress={() => this.sidebarNavigate('ProfileStackNavigator')}
+					testID='sidebar-profile'
+					current={this.currentItemKey === 'ProfileStackNavigator'}
+				/>
+				<SidebarItem
+					text={I18n.t('Settings')}
+					left={<CustomIcon name='administration' size={20} color={themes[theme].titleText} />}
+					onPress={() => this.sidebarNavigate('SettingsStackNavigator')}
+					testID='sidebar-settings'
+					current={this.currentItemKey === 'SettingsStackNavigator'}
+				/>
+				{/* {this.renderAdmin()} */}
+			</>
+		);
+	}
+
+	renderBottomMenu = () => {
+		const { theme } = this.props;
+
+		return (
+			<BottomMenu>
+				<Item testID='message-icon' theme={theme} onPress={() => this.sidebarNavigate('ChatsStackNavigator')}>
+					<CustomIcon name='message' size={30} color={themes[theme].titleText} />
+				</Item>
+				<Item testID='user-icon' theme={theme} onPress={() => this.sidebarNavigate('ProfileStackNavigator')}>
+					<CustomIcon name='user' size={30} color={themes[theme].titleText} />
+				</Item>
+				<Item testID='administration-icon' theme={theme} onPress={() => this.sidebarNavigate('SettingsStackNavigator')}>
+					<CustomIcon name='administration' size={30} color={themes[theme].titleText} />
+				</Item>
+				{/* <Item testID='settings-icon' theme={theme} onPress={() => this.sidebarNavigate('AdminPanelStackNavigator')}>
+					<CustomIcon name='settings' size={30} color={themes[theme].titleText} />
+				</Item> */}
+				{/* <HeaderButton.Item
+					iconName='create'
+					onPress={this.goToNewMessage}
+					testID='rooms-list-view-create-channel'
+				/>
+				<HeaderButton.Item
+					iconName='create'
+					onPress={this.goToNewMessage}
+					testID='rooms-list-view-create-channel'
+				/>
+				<HeaderButton.Item
+					iconName='create'
+					onPress={this.goToNewMessage}
+					testID='rooms-list-view-create-channel'
+				/>
+				<HeaderButton.Item
+					iconName='create'
+					onPress={this.goToNewMessage}
+					testID='rooms-list-view-create-channel'
+				/> */}
+				{/* {this.renderNavigation()} */}
+			</BottomMenu>
+		);
+	}
+
 	render = () => {
 		console.count(`${ this.constructor.name }.render calls`);
 		const {
@@ -991,6 +1072,7 @@ class RoomsListView extends React.Component {
 				<StatusBar />
 				{this.renderHeader()}
 				{this.renderScroll()}
+				{this.renderBottomMenu()}
 				{showSortDropdown ? (
 					<SortDropdown
 						close={this.toggleSort}

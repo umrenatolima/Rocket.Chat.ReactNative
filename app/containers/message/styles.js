@@ -180,5 +180,17 @@ export default StyleSheet.create({
 	threadDetails: {
 		flex: 1,
 		marginLeft: 12
+	},
+	sentMessage: {
+		alignSelf: 'flex-start',
+		backgroundColor: '#fff',
+		padding: 5,
+		borderRadius: 5
+	},
+	receivedMessage: {
+		alignSelf: 'flex-end',
+		backgroundColor: '#dcf8c6',
+		padding: 5,
+		borderRadius: 5
 	}
 });

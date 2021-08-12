@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FastImage from '@rocket.chat/react-native-fast-image';
 import CookieManager from '@react-native-cookies/cookies';
+import { HeaderBackButton } from '@react-navigation/stack';
 
 import { logout as logoutAction } from '../../actions/login';
 import { selectServerRequest as selectServerRequestAction } from '../../actions/server';
@@ -40,7 +41,13 @@ class SettingsView extends React.Component {
 		headerLeft: () => (isMasterDetail ? (
 			<HeaderButton.CloseModal navigation={navigation} testID='settings-view-close' />
 		) : (
-			<HeaderButton.Drawer navigation={navigation} testID='settings-view-drawer' />
+			// <HeaderButton.Drawer navigation={navigation} testID='settings-view-drawer' />
+			<HeaderBackButton
+				label=' '
+				onPress={() => navigation.goBack()}
+				tintColor='#6C727A'
+				labelStyle={{ fontSize: 17, marginLeft: 20 }}
+			/>
 		)),
 		title: I18n.t('Settings')
 	});

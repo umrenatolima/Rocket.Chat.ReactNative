@@ -1,8 +1,11 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
 
+import Touch from '../../utils/touch';
 import sharedStyles from '../Styles';
 
-export default StyleSheet.create({
+export default styles = StyleSheet.create({
 	container: {
 		flex: 1
 	},
@@ -56,5 +59,51 @@ export default StyleSheet.create({
 		marginRight: 12,
 		paddingVertical: 10,
 		...sharedStyles.textRegular
+	},
+	bottomMenu: {
+		height: 60,
+		paddingVertical: 12,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	bottomMenuIcon: {
+		flex: 1,
+		alignSelf: 'center'
 	}
 });
+
+export const BottomMenu = ({ children }) => (
+	<View style={styles.bottomMenu}>
+		{children}
+	</View>
+);
+
+BottomMenu.propTypes = {
+	children: PropTypes.arrayOf(PropTypes.element),
+};
+
+BottomMenu.displayName = 'BottomMenuContainer';
+
+export const Item = ({
+	onPress, children, testID, theme
+}) => (
+	<Touch
+		key={testID}
+		testID={testID}
+		theme={theme}
+		onPress={onPress}
+		style={styles.bottomMenuIcon}
+	>
+		<View style={styles.bottomMenuIcon}>
+			{children}
+		</View>
+	</Touch>
+);
+
+Item.propTypes = {
+	onPress: PropTypes.func,
+	children: PropTypes.arrayOf(PropTypes.element),
+};
+
+Item.displayName = 'BottomMenuItem';

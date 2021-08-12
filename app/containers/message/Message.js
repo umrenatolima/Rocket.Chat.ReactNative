@@ -51,7 +51,7 @@ const MessageInner = React.memo((props) => {
 	}
 	return (
 		<>
-			<User {...props} />
+			{/* <User {...props} /> */}
 			<Content {...props} />
 			<Attachments {...props} />
 			<Urls {...props} />
@@ -70,7 +70,7 @@ const Message = React.memo((props) => {
 			<View style={[styles.container, props.style]}>
 				{thread}
 				<View style={styles.flex}>
-					<MessageAvatar small {...props} />
+					{/* <MessageAvatar small {...props} /> */}
 					<View
 						style={[
 							styles.messageContent,
@@ -87,7 +87,7 @@ const Message = React.memo((props) => {
 	return (
 		<View style={[styles.container, props.style]}>
 			<View style={styles.flex}>
-				<MessageAvatar {...props} />
+				{/* <MessageAvatar {...props} /> */}
 				<View
 					style={[
 						styles.messageContent,

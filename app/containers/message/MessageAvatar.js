@@ -9,6 +9,7 @@ const MessageAvatar = React.memo(({
 	isHeader, avatar, author, small, navToRoomInfo, emoji, getCustomEmoji, theme
 }) => {
 	const { user } = useContext(MessageContext);
+
 	if (isHeader && author) {
 		const navParam = {
 			t: 'd',

@@ -1136,6 +1136,19 @@ class RoomActionsView extends React.Component {
 							)
 							: null}
 
+						<>
+							<List.Item
+								title='Canned_Responses'
+								onPress={() => this.onPressTouchable({
+									route: 'ForwardLivechatView',
+									params: { rid }
+								})}
+								left={() => <List.Icon name='reply' />}
+								showActionIndicator
+							/>
+							<List.Separator />
+						</>
+
 						{['l'].includes(t) && !this.isOmnichannelPreview && canReturnQueue
 							? (
 								<>

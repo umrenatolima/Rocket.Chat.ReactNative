@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, InteractionManager } from 'react-native';
+import {
+	Text, View, InteractionManager, ImageBackground
+} from 'react-native';
 import { connect } from 'react-redux';
 import parse from 'url-parse';
 
@@ -10,6 +12,7 @@ import { Q } from '@nozbe/watermelondb';
 import { dequal } from 'dequal';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
+import backgroundIMG from '../../static/images/chat-background.png';
 import Touch from '../../utils/touch';
 import {
 	replyBroadcast as replyBroadcastAction
@@ -1109,61 +1112,66 @@ class RoomView extends React.Component {
 
 		return (
 			<SafeAreaView
-				style={{ backgroundColor: themes[theme].backgroundColor }}
 				testID='room-view'
 			>
-				<StatusBar />
-				<Banner
-					rid={rid}
-					title={I18n.t('Announcement')}
-					text={announcement}
-					bannerClosed={bannerClosed}
-					closeBanner={this.closeBanner}
-					theme={theme}
-				/>
-				<List
-					ref={this.list}
-					listRef={this.flatList}
-					rid={rid}
-					t={t}
-					tmid={this.tmid}
-					theme={theme}
-					tunread={room?.tunread}
-					ignored={room?.ignored}
-					renderRow={this.renderItem}
-					loading={loading}
-					navigation={navigation}
-					hideSystemMessages={Array.isArray(sysMes) ? sysMes : Hide_System_Messages}
-					showMessageInMainThread={user.showMessageInMainThread}
-				/>
-				{this.renderFooter()}
-				{this.renderActions()}
-				<ReactionPicker
-					show={reacting}
-					message={selectedMessage}
-					onEmojiSelected={this.onReactionPress}
-					reactionClose={this.onReactionClose}
-					width={width}
-					height={height}
-					theme={theme}
-				/>
-				<UploadProgress rid={this.rid} user={user} baseUrl={baseUrl} width={width} />
-				<ReactionsModal
-					message={selectedMessage}
-					isVisible={reactionsModalVisible}
-					user={user}
-					baseUrl={baseUrl}
-					onClose={this.onCloseReactionsModal}
-					getCustomEmoji={this.getCustomEmoji}
-				/>
-				<JoinCode
-					ref={this.joinCode}
-					onJoin={this.onJoin}
-					rid={rid}
-					t={t}
-					theme={theme}
-				/>
-				<Loading visible={showingBlockingLoader} />
+				<ImageBackground
+					source={backgroundIMG}
+					resizeMode='cover'
+					style={{ flex: 1 }}
+				>
+					<StatusBar />
+					<Banner
+						rid={rid}
+						title={I18n.t('Announcement')}
+						text={announcement}
+						bannerClosed={bannerClosed}
+						closeBanner={this.closeBanner}
+						theme={theme}
+					/>
+					<List
+						ref={this.list}
+						listRef={this.flatList}
+						rid={rid}
+						t={t}
+						tmid={this.tmid}
+						theme={theme}
+						tunread={room?.tunread}
+						ignored={room?.ignored}
+						renderRow={this.renderItem}
+						loading={loading}
+						navigation={navigation}
+						hideSystemMessages={Array.isArray(sysMes) ? sysMes : Hide_System_Messages}
+						showMessageInMainThread={user.showMessageInMainThread}
+					/>
+					{this.renderFooter()}
+					{this.renderActions()}
+					<ReactionPicker
+						show={reacting}
+						message={selectedMessage}
+						onEmojiSelected={this.onReactionPress}
+						reactionClose={this.onReactionClose}
+						width={width}
+						height={height}
+						theme={theme}
+					/>
+					<UploadProgress rid={this.rid} user={user} baseUrl={baseUrl} width={width} />
+					<ReactionsModal
+						message={selectedMessage}
+						isVisible={reactionsModalVisible}
+						user={user}
+						baseUrl={baseUrl}
+						onClose={this.onCloseReactionsModal}
+						getCustomEmoji={this.getCustomEmoji}
+					/>
+					<JoinCode
+						ref={this.joinCode}
+						onJoin={this.onJoin}
+						rid={rid}
+						t={t}
+						theme={theme}
+					/>
+					<Loading visible={showingBlockingLoader} />
+				</ImageBackground>
 			</SafeAreaView>
 		);
 	}
